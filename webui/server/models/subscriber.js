@@ -23,6 +23,10 @@ const Subscriber = new Schema({
     opc: String,
     amf: String,
     rand: String,
+    alg: {
+      $type: Number,
+      default: 0 // MILENAGE
+    },
     sqn: Schema.Types.Long
   },
 

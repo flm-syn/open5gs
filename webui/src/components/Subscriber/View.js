@@ -259,6 +259,10 @@ const View = ({ visible, disableOnClickOutside, subscriber, onEdit, onDelete, on
                           <span style={{color:oc.gray[5]}}><KeyboardControlIcon/>SQN</span>
                         </div>
                       }
+                      <div className="data">
+                        {security.alg == 1 ? ( "XOR" ) : ( "MILENAGE" )}
+                        <span style={{color:oc.gray[5]}}><KeyboardControlIcon/>Authentication algorithm</span>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -31,6 +31,7 @@
 #include "crypt/ogs-aes.h"
 #include "crypt/ogs-aes-cmac.h"
 
+#include "crypt/xor.h"
 #include "crypt/milenage.h"
 #include "crypt/snow-3g.h"
 #include "crypt/zuc.h"

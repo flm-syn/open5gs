@@ -28,9 +28,15 @@
 extern "C" {
 #endif
 
+typedef enum ogs_dbi_auth_alg_s {
+    AUTH_ALG_MILENAGE = 0,
+    AUTH_ALG_XOR = 1
+} ogs_dbi_auth_alg_t;
+
 typedef struct ogs_dbi_auth_info_s {
     uint8_t       k[OGS_KEY_LEN];
     uint8_t       use_opc;
+    ogs_dbi_auth_alg_t auth_alg;
     uint8_t       opc[OGS_KEY_LEN];
     uint8_t       op[OGS_KEY_LEN];
     uint8_t       amf[OGS_AMF_LEN];

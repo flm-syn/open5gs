@@ -254,10 +254,20 @@ static int hss_ogs_diam_s6a_air_cb(struct msg **msg, struct avp *avp,
     memcpy(&visited_plmn_id, hdr->avp_value->os.data,
             ogs_min(hdr->avp_value->os.len, sizeof(visited_plmn_id)));
 
+    ogs_error("auth_alg = %x", auth_info.auth_alg);
     /* Generate authentication vectors */
-    milenage_generate(opc, auth_info.amf, auth_info.k,
-        ogs_uint64_to_buffer(auth_info.sqn, OGS_SQN_LEN, sqn), auth_info.rand,
-        autn, ik, ck, ak, xres, &xres_len);
+    switch (auth_info.auth_alg) {
+        case AUTH_ALG_XOR:
+            xor_generate(auth_info.amf, auth_info.k,
+                ogs_uint64_to_buffer(auth_info.sqn, OGS_SQN_LEN, sqn), auth_info.rand,
+                autn, ik, ck, ak, xres, &xres_len);
+            break;
+        default:
+            milenage_generate(opc, auth_info.amf, auth_info.k,
+                ogs_uint64_to_buffer(auth_info.sqn, OGS_SQN_LEN, sqn), auth_info.rand,
+                autn, ik, ck, ak, xres, &xres_len);
+    }
+
     ogs_auc_kasme(ck, ik, hdr->avp_value->os.data, sqn, ak, kasme);
 
     /* Set the Authentication-Info */

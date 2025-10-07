@@ -76,6 +76,14 @@ const schema = {
             "pattern": "Only hexadecimal digits are allowed"
           }
         },
+        "alg": {
+          "type": "number",
+          "title": "Authentication algorithm used by UE",
+          "enum": [0, 1],
+          "enumNames": ["MILENAGE", "XOR"],
+          "default": 0,
+        },
+
       }
     },
     "ambr": {

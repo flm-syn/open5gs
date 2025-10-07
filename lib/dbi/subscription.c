@@ -81,6 +81,7 @@ int ogs_dbi_auth_info(char *supi, ogs_dbi_auth_info_t *auth_info)
     }
 
     memset(auth_info, 0, sizeof(ogs_dbi_auth_info_t));
+
     bson_iter_recurse(&iter, &inner_iter);
     while (bson_iter_next(&inner_iter)) {
         const char *key = bson_iter_key(&inner_iter);
@@ -113,6 +114,9 @@ int ogs_dbi_auth_info(char *supi, ogs_dbi_auth_info_t *auth_info)
         } else if (!strcmp(key, OGS_SQN_STRING) &&
                 BSON_ITER_HOLDS_INT64(&inner_iter)) {
             auth_info->sqn = bson_iter_int64(&inner_iter);
+        } else if (!strcmp(key, OGS_AUTH_ALG_STRING) &&
+                BSON_ITER_HOLDS_INT32(&inner_iter)) {
+            auth_info->auth_alg = bson_iter_int32(&inner_iter);
         }
     }
 

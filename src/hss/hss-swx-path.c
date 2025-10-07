@@ -255,9 +255,17 @@ static int hss_ogs_diam_swx_mar_cb(struct msg **msg, struct avp *avp,
         goto out;
     }
 
-    milenage_generate(opc, auth_info.amf, auth_info.k,
-        ogs_uint64_to_buffer(auth_info.sqn, OGS_SQN_LEN, sqn), auth_info.rand,
-        autn, ik, ck, ak, xres, &xres_len);
+    switch (auth_info.auth_alg) {
+        case AUTH_ALG_XOR:
+            xor_generate(auth_info.amf, auth_info.k,
+                ogs_uint64_to_buffer(auth_info.sqn, OGS_SQN_LEN, sqn), auth_info.rand,
+                autn, ik, ck, ak, xres, &xres_len);
+            break;
+        default:
+            milenage_generate(opc, auth_info.amf, auth_info.k,
+                ogs_uint64_to_buffer(auth_info.sqn, OGS_SQN_LEN, sqn), auth_info.rand,
+                autn, ik, ck, ak, xres, &xres_len);
+    }
 
     memcpy(authenticate, auth_info.rand, OGS_RAND_LEN);
     memcpy(authenticate + OGS_RAND_LEN, autn, OGS_AUTN_LEN);
